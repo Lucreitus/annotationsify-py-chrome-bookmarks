@@ -2,8 +2,10 @@
 
 # py-chrome-bookmarks
 # 
-# A script to convert Google Chrome's bookmarks file to the standard HTML-ish
-# format.
+# A script to convert Google Chrome's bookmarks file to the to an XML Annotations file 
+#  format to be used by Google Custom Search Engine.
+# 
+# Edited by Keith Mascarenhas.
 #
 # (c) Benjamin Esham, 2011.  See the accompanying README for this file's
 # license and other information.
@@ -47,13 +49,16 @@ def html_for_node(node):
 
 def html_for_url_node(node):
 	if not re.match("javascript:", node['url']):
-		return '<dt><a href="%s">%s</a>\n' % (sanitize(node['url']), sanitize(node['name']))
+		if 'http://localhost/' in sanitize(node['url']) or 'chrome://' in sanitize(node['url']) or 'http://www.www' in sanitize(node['url']) or 'file:///' in sanitize(node['url']):
+			return ''
+		else:
+#		return '<dt><a href="%s">%s</a>\n' % (sanitize(node['url']), sanitize(node['name']))
+			return '<Annotation about="%s">\n\t<Label name="_cse_jjzq_xuzibu"/>\n</Annotation>\n\n' % (sanitize(node['url']))
 	else:
 		return ''
 
 def html_for_parent_node(node):
-	return '<dt><h3>%s</h3>\n<dl><p>%s</dl><p>\n' % (sanitize(node['name']),
-			''.join([html_for_node(n) for n in node['children']]))
+	return '%s' % (''.join([html_for_node(n) for n in node['children']]))
 
 def version_text():
 	old_out = sys.stdout
@@ -110,17 +115,12 @@ except IOError, e:
 	print >> sys.stderr, e
 	exit()
 
-out.write("""<!DOCTYPE NETSCAPE-Bookmark-file-1>
+out.write("""<Annotations>
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-<title>Bookmarks</title>
-<h1>Bookmarks</h1>
+%(bookmark_bar)s
 
-<dl><p>
-
-<dl>%(bookmark_bar)s</dl>
-
-<dl>%(other)s</dl>
+%(other)s
+</Annotations>
 """
 	% {'bookmark_bar': html_for_node(j['roots']['bookmark_bar']),
 		'other': html_for_node(j['roots']['other'])})
