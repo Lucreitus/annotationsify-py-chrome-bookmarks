@@ -9,13 +9,18 @@ Simple Python scripts to convert [Google Chrome](http://www.google.com/chrome)�
 
 From the command line, do
 
-    python py-chrome-bookmarks.py .../path/to/Chrome/Bookmarks output.html
+    python py-chrome-bookmarks.py .../path/to/Chrome/Bookmarks output.xml
 
-The script will ignore URLs that start with “javascript:”.
+The script will ignore URLs that start with the following: 
+“javascript:”
+"file:///"
+"http://localhost"
+"chrome://"
+"http://www.www" #I had this one weird bookmark, so added this exception too.
 
 ## Links
-
-This script is [hosted on GitHub](https://github.com/bdesham/py-chrome-bookmarks).
+This script is [hosted on GitHub](https://github.com/keithxm23/annotationsify-py-chrome-bookmarks)
+This script is [based off Benjamin Esham's script on GitHub](https://github.com/bdesham/py-chrome-bookmarks).
 
 ## License
 

@@ -12,7 +12,7 @@
 
 import json, sys, os, re
 
-script_version = "1.1"
+script_version = "1.1.1"
 
 # html escaping code from http://wiki.python.org/moin/EscapingHtml
 
